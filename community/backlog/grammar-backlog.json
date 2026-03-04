@@ -494,13 +494,13 @@
   {
     "id": 83,
     "text": "\"〜にしたがって\" means \"as / in accordance with...\".",
-    "completed": false,
+    "completed": true,
     "issued": false
   },
   {
     "id": 84,
     "text": "\"〜を通して\" means \"through / throughout...\".",
-    "completed": false,
+    "completed": true,
     "issued": false
   },
   {
@@ -524,7 +524,7 @@
   {
     "id": 88,
     "text": "\"〜たい\" attaches to a verb stem to express \"want to do\" something. (practice variation 3)",
-    "issued": false,
+    "issued": true,
     "completed": false
   },
   {
