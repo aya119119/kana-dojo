@@ -32,6 +32,18 @@ const MainMenu = () => {
 
   const { theme, setTheme, isGlassMode } = useThemePreferences();
 
+  const characterTileClassName = (delay?: string, floatDistance?: string) =>
+    clsx(
+      'inline-flex h-12 w-12 items-center justify-center rounded-2xl',
+      'bg-(--secondary-color) group-hover:bg-(--main-color) text-(--background-color)',
+      'border-b-8 border-(--secondary-color-accent) group-hover:border-(--main-color-accent)',
+      'transition-all duration-200',
+      'active:border-b-0 active:translate-y-[6px] active:mb-[6px]',
+      'animate-float',
+      delay,
+      `[--float-distance:${floatDistance}]`,
+    );
+
   const { playClick } = useClick();
 
   const expandDecorations = useDecorationsStore(
@@ -90,6 +102,8 @@ const MainMenu = () => {
     { name: 'patch notes', href: '/patch-notes', icon: FileDiff },
     { name: 'credits', href: '/credits', icon: Sparkle },
   ];
+
+  const mobileLabelInset = 'pl-[max(30%,calc(50%-5.5rem))]';
 
   return (
     <div
@@ -180,17 +194,6 @@ const MainMenu = () => {
                 )}
               />
             )}
-            {/* <Settings
-              size={32}
-              className={clsx(
-                'hover:cursor-pointer duration-250 hover:scale-120',
-                'active:scale-100 active:duration-225'
-              )}
-              onClick={() => {
-                playClick();
-                window.open('/settings', '_self');
-              }}
-            /> */}
 
             <FontAwesomeIcon
               icon={faDiscord}
@@ -250,14 +253,17 @@ const MainMenu = () => {
               <Link
                 href={link.href}
                 prefetch
-                className={clsx('w-full overflow-hidden')}
+                className={clsx('group w-full overflow-hidden')}
               >
                 <button
                   className={clsx(
                     'flex h-full w-full text-2xl',
-                    'items-center justify-center gap-1.5 border-(--border-color)',
+                    'items-center gap-3 border-(--border-color)',
+                    'justify-start md:justify-center',
                     'md:border-b-4',
                     'py-8',
+                    mobileLabelInset,
+                    'md:pl-0',
                     'group',
                     i === 0 && 'rounded-tl-2xl rounded-bl-2xl',
                     i === links.length - 1 && 'rounded-tr-2xl rounded-br-2xl',
@@ -268,11 +274,18 @@ const MainMenu = () => {
                 >
                   <span
                     lang='ja'
-                    className='font-normal text-(--secondary-color)'
+                    className={characterTileClassName(
+                      i === 0
+                        ? '[animation-delay:0ms]'
+                        : i === 1
+                          ? '[animation-delay:800ms]'
+                          : '[animation-delay:1600ms]',
+                      // i === 0 ? '-10px' : i === 1 ? '-7px' : '-5px'
+                    )}
                   >
                     {link.name_ja}
                   </span>
-                  <span lang='en' className=''>
+                  <span lang='en' className='leading-none'>
                     {link.name_en}
                   </span>
                 </button>
@@ -319,7 +332,7 @@ const MainMenu = () => {
           ))}
         </div>
       </div>
-      <a
+      {/* <a
         href='https://vercel.com/oss'
         target='_blank'
         rel='noopener'
@@ -331,7 +344,7 @@ const MainMenu = () => {
           src='https://vercel.com/oss/program-badge.svg'
           className='h-8 w-auto p-1'
         />
-      </a>
+      </a> */}
       {/* {showBanner && (
         <NightlyBanner onSwitch={handleSwitch} onDismiss={handleDismiss} />
       )} */}
